@@ -1,0 +1,378 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Les 7 règnes du vivant — Présentation</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    min-height: 100vh; color: #fff; padding: 14px;
+    background: radial-gradient(circle at 30% 20%, #1e1b4b, #0a0a1a);
+    transition: background 0.8s ease; display: flex; flex-direction: column; align-items: center;
+  }
+  h1 { font-size: 1.8rem; text-align: center; }
+  .subtitle { color: rgba(255,255,255,.5); font-size: .9rem; text-align: center; margin: 6px 0 18px; }
+  .tabs { display: flex; gap: 8px; flex-wrap: wrap; justify-content: center; margin-bottom: 22px; }
+  .tab {
+    padding: 8px 18px; border-radius: 999px; font-size: .9rem; cursor: pointer;
+    background: transparent; color: rgba(255,255,255,.7); border: 1px solid rgba(255,255,255,.2);
+    transition: all .2s;
+  }
+  .tab:hover { background: rgba(255,255,255,.1); }
+  .tab.active { background: #a855f7; color: #000; border-color: transparent; font-weight: 600; }
+  .card {
+    width: 100%; max-width: 900px; border-radius: 24px; padding: 18px 22px;
+    background: rgba(255,255,255,.05); border: 1px solid rgba(255,255,255,.15);
+  }
+  .fade-in { animation: fadeIn .5s ease; }
+  @keyframes fadeIn { from { opacity: 0; transform: translateY(14px);} to { opacity: 1; transform: none;} }
+  /* VOYAGE */
+  .k-head { display: flex; align-items: center; gap: 14px; margin-bottom: 12px; }
+  .k-emoji { font-size: 2.4rem; animation: float 3s ease-in-out infinite; display: inline-block; }
+  @keyframes float { 0%,100% { transform: translateY(0) rotate(0);} 50% { transform: translateY(-8px) rotate(4deg);} }
+  .k-name { font-size: 1.35rem; font-weight: 700; }
+  .k-tag { color: rgba(255,255,255,.6); font-size: .85rem; }
+  .org-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(210px, 1fr)); gap: 9px; }
+  .org {
+    border-radius: 14px; padding: 10px 12px; background: rgba(255,255,255,.05);
+    border: 1px solid rgba(255,255,255,.12); animation: fadeIn .5s ease backwards;
+  }
+  .org .emo { font-size: 1.5rem; display: inline-block; animation: pulse 2.2s ease-in-out infinite; }
+  @keyframes pulse { 0%,100% { transform: scale(1);} 50% { transform: scale(1.15);} }
+  .org .name { font-weight: 600; font-style: italic; font-size: .82rem; margin-top: 3px; }
+  .org .desc { color: rgba(255,255,255,.6); font-size: .74rem; margin-top: 2px; line-height: 1.3; }
+  .controls { display: flex; gap: 12px; margin-top: 14px; flex-wrap: wrap; justify-content: center; }
+  .btn {
+    padding: 7px 18px; border-radius: 999px; cursor: pointer; font-size: .85rem;
+    background: transparent; color: rgba(255,255,255,.85); border: 1px solid rgba(255,255,255,.3); transition: all .2s;
+  }
+  .btn:hover { background: rgba(255,255,255,.12); }
+  .btn.main { background: #fff; color: #000; border-color: transparent; font-weight: 700; }
+  .dots { display: flex; gap: 8px; margin-top: 12px; justify-content: center; }
+  .dot { width: 10px; height: 10px; border-radius: 999px; border: none; cursor: pointer; background: rgba(255,255,255,.25); transition: width .3s; }
+  .dot.on { width: 28px; }
+  /* LIENS */
+  .link-card { border-radius: 16px; padding: 18px 20px; background: rgba(255,255,255,.04); border: 1px solid rgba(255,255,255,.15); margin-bottom: 14px; animation: fadeIn .5s ease backwards; }
+  .badges { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; font-size: .85rem; font-weight: 600; margin-bottom: 8px; }
+  .badge { padding: 4px 12px; border-radius: 999px; border: 1px solid; }
+  .arrow { animation: slide 1.4s ease-in-out infinite; }
+  @keyframes slide { 0%,100% { transform: translateX(0);} 50% { transform: translateX(6px);} }
+  .link-title { font-weight: 700; font-size: 1rem; margin-bottom: 4px; }
+  .link-text { color: rgba(255,255,255,.72); font-size: .88rem; line-height: 1.55; }
+  /* DIVISIONS */
+  .div-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(340px, 1fr)); gap: 14px; max-width: 900px; }
+  .div-card { border-radius: 16px; padding: 20px; background: rgba(255,255,255,.04); border: 1px solid rgba(255,255,255,.15); animation: fadeIn .5s ease backwards; }
+  .div-head { display: flex; align-items: center; gap: 12px; margin-bottom: 10px; }
+  .div-emoji { font-size: 2.2rem; display: inline-block; animation: sway 3s ease-in-out infinite; }
+  @keyframes sway { 0%,100% { transform: rotate(0);} 50% { transform: rotate(6deg);} }
+  .div-name { font-size: 1.2rem; font-weight: 700; font-style: italic; }
+  .div-card ul { list-style: none; margin: 8px 0 12px; }
+  .div-card li { color: rgba(255,255,255,.78); font-size: .85rem; margin-bottom: 4px; padding-left: 16px; position: relative; line-height: 1.4; }
+  .div-card li::before { content: "•"; position: absolute; left: 2px; }
+  .ex { display: flex; align-items: center; gap: 10px; border-radius: 12px; padding: 8px 12px; margin-bottom: 7px; font-size: .84rem; background: rgba(255,255,255,.06); animation: fadeIn .5s ease backwards; }
+  .ex .emo { font-size: 1.3rem; }
+  .ex .n { font-weight: 600; font-style: italic; }
+  .ex .d { color: rgba(255,255,255,.55); }
+  .warning { max-width: 900px; margin-top: 14px; border-radius: 16px; padding: 14px 18px; font-size: .85rem; text-align: center; color: rgba(255,255,255,.75); border: 1px solid rgba(232,121,249,.4); background: rgba(217,70,239,.08); animation: fadeIn .7s ease; }
+  .footer { margin-top: 14px; color: rgba(255,255,255,.35); font-size: .7rem; text-align: center; }
+  /* Arbre animé */
+  .tree path.branch { stroke: rgba(255,255,255,0.35); stroke-width: 1.5; fill: none; stroke-dasharray: 300; stroke-dashoffset: 300; animation: drawBranch .45s ease-out forwards; }
+  @keyframes drawBranch { to { stroke-dashoffset: 0; } }
+  .tree ellipse.hl { fill: none; stroke-width: 2.5; stroke-dasharray: 850; stroke-dashoffset: 850; opacity: 0; animation: drawCircle .7s ease-in-out forwards; }
+  @keyframes drawCircle { 0% { opacity: 0; } 10% { opacity: 1; } 100% { opacity: 1; stroke-dashoffset: 0; } }
+  .tree ellipse.hl.red { stroke-dasharray: 6 4; animation: drawCircleDashed .7s ease-in-out forwards; }
+  @keyframes drawCircleDashed { 0% { opacity: 0; } 10% { opacity: 1; } 100% { opacity: 1; } }
+  .tree text { opacity: 0; animation: textIn .35s ease forwards; }
+  @keyframes textIn { 0% { opacity: 0; transform: translateY(6px); } 100% { opacity: 1; transform: translateY(0); } }
+  .legend { text-align: center; color: rgba(255,255,255,.6); font-size: .8rem; margin-top: 10px; line-height: 1.5; }
+  @media (max-width: 640px) {
+    body { padding: 10px; }
+    h1 { font-size: 1.25rem; }
+    .subtitle { font-size: .78rem; }
+    .card { padding: 14px 16px; border-radius: 18px; }
+    .k-emoji { font-size: 2rem; }
+    .k-name { font-size: 1.15rem; }
+    .k-tag { font-size: .76rem; }
+    .org-grid { grid-template-columns: repeat(2, 1fr); gap: 7px; }
+    .org { padding: 8px 10px; }
+    .org .emo { font-size: 1.25rem; }
+    .org .name { font-size: .76rem; }
+    .org .desc { font-size: .68rem; }
+    .tabs { gap: 6px; }
+    .tab { padding: 7px 12px; font-size: .76rem; }
+    .btn { padding: 6px 14px; font-size: .78rem; }
+    .controls { gap: 8px; margin-top: 12px; }
+    .legend { font-size: .72rem; }
+  }
+</style>
+</head>
+<body>
+<h1>Les 7 règnes du vivant</h1>
+<p class="subtitle">Voyage animé, parentés entre règnes et divisions fongiques — d'après les panneaux de la Société Mycologique de France</p>
+
+<div class="tabs">
+  <button class="tab" onclick="show('arbre')">🌳 Arbre du vivant</button>
+  <button class="tab" onclick="show('voyage')">🚀 Voyage dans les règnes</button>
+  <button class="tab" onclick="show('liens')">🔗 Liens de parenté</button>
+  <button class="tab" onclick="show('divisions')">🍄 5 divisions fongiques</button>
+</div>
+
+<div id="voyage" class="view">
+  <div class="card" id="k-card"></div>
+  <div class="controls">
+    <button class="btn" onclick="step(-1)">← Précédent</button>
+    <button class="btn main" id="play-btn" onclick="togglePlay()">⏸ Pause</button>
+    <button class="btn" onclick="step(1)">Suivant →</button>
+  </div>
+  <div class="dots" id="dots"></div>
+</div>
+
+<div id="liens" class="view" style="display:none; width:100%; max-width:900px;">
+  <div id="liens-list"></div>
+</div>
+<div id="divisions" class="view" style="display:none;">
+  <div class="div-grid" id="div-grid"></div>
+  <div class="warning">⚠️ Les « faux champignons » (myxomycètes et mildious) sont EXCLUS du règne fongique : Protistes et Chromistes respectivement.</div>
+</div>
+<div id="arbre" class="view" style="display:none; width:100%; max-width:760px;">
+  <div class="card" style="padding:24px 28px">
+    <div style="text-align:center;font-size:1.4rem;font-weight:700;color:#f5d0fe;margin-bottom:2px">🌳 Le grand arbre du vivant</div>
+    <div style="text-align:center;color:rgba(255,255,255,.5);font-size:.85rem;margin-bottom:14px">Trois grandes familles — croquis d'après le panneau 1</div>
+    <div id="tree-arbre"></div>
+    <div class="legend">⚫ <b>Procaryotes</b> : sans noyau (Archées, Bactéries) &nbsp;·&nbsp; ⚫ <b>Eucaryotes</b> : à noyau vrai &nbsp;·&nbsp; 🔴 <b>Opisthochontes</b> : champignons + animaux, unis par la chitine !</div>
+  </div>
+</div>
+
+<p class="footer">Animation réalisée à partir des panneaux didactiques de la <b>Société Mycologique de France</b>, par l'IA française <b>Mistral</b>, à la demande de la <b>Société Mycologique de La Roche-sur-Yon</b> 🍄 · Espace : avancer · Retour : reculer</p>
+
+<script>
+const KINGDOMS = [
+ {name:"Archées", emoji:"🌋", color:"#e11d48", bg:"radial-gradient(circle at 30% 20%, #4c0519, #1c0a14)",
+  tagline:"Les extrêmophiles des milieux impossibles",
+  organisms:[
+   {e:"🦠",n:"Methanobrevibacter smithii",d:"Usine à méthane de notre intestin"},
+   {e:"♨️",n:"Sulfolobus acidocaldarius",d:"Sources acides bouillantes"},
+   {e:"🧂",n:"Halobacterium salinarum",d:"Fleur rose des marais salants"},
+   {e:"🐄",n:"Methanosarcina",d:"Méthane des rumens de vaches"},
+   {e:"🐚",n:"Cenarchaeum symbiosum",d:"Vit en symbiose chez les éponges"}]},
+ {name:"Bactéries", emoji:"🧫", color:"#f97316", bg:"radial-gradient(circle at 30% 20%, #7c2d12, #221208)",
+  tagline:"Sans noyau, mais partout et indispensables",
+  organisms:[
+   {e:"🦠",n:"Escherichia coli",d:"Habitante de notre flore intestinale"},
+   {e:"🥛",n:"Lactobacillus bulgaricus",d:"Transforme le lait en yaourt"},
+   {e:"🍞",n:"Streptococcus thermophilus",d:"Fromages, levain et bière"},
+   {e:"🌱",n:"Rhizobium",d:"Fixe l'azote des racines de légumineuses"},
+   {e:"🍂",n:"Streptomyces",d:"Décomposeur des sols, source d'antibiotiques"}]},
+ {name:"Protistes", emoji:"🔬", color:"#a855f7", bg:"radial-gradient(circle at 30% 20%, #3b0764, #17091f)",
+  tagline:"Le royaume des amibes… et du blob !",
+  organisms:[
+   {e:"🟠",n:"Physarum polycephalum — LE BLOB",d:"Amibe géante, résout des labyrinthes sans neurone"},
+   {e:"🟡",n:"Fuligo septica — Fleur de Tan",d:"Cousine du blob, sur le bois mort"},
+   {e:"🌊",n:"Paramecium aurelia",d:"Cilié nageur des mares"},
+   {e:"👣",n:"Amoeba proteus",d:"L'amibe classique, une goutte vivante"},
+   {e:"🦟",n:"Plasmodium falciparum",d:"Responsable du paludisme"},
+   {e:"💤",n:"Trypanosoma brucei",d:"Maladie du sommeil, mouche tsé-tsé"}]},
+ {name:"Chromistes", emoji:"🌊", color:"#0ea5e9", bg:"radial-gradient(circle at 30% 20%, #083344, #04161d)",
+  tagline:"Algues brunes et fausses moisissures",
+  organisms:[
+   {e:"🍇",n:"Plasmopara viticola",d:"Mildiou de la vigne (pas un champignon !)"},
+   {e:"🥔",n:"Phytophthora infestans",d:"Mildiou de la pomme de terre"},
+   {e:"🌱",n:"Laminaria digitata",d:"Grande algue brune des côtes bretonnes"},
+   {e:"🪸",n:"Fucus vesiculosus",d:"Le goémon des rochers atlantiques"},
+   {e:"✨",n:"Thalassiosira",d:"Diatomée : plancton à coque de verre"},
+   {e:"🍃",n:"Saprolegnia",d:"Moisissure blanche des poissons d'aquarium"}]},
+ {name:"Champignons (Fungi)", emoji:"🍄", color:"#d946ef", bg:"radial-gradient(circle at 30% 20%, #4a044e, #1a081d)",
+  tagline:"Absorbotrophes à paroi chitineuse — 5 divisions, voir l'onglet dédié !",
+  organisms:[
+   {e:"🧀",n:"Penicillium roqueforti",d:"Les veines bleues du roquefort (Ascomycète)"},
+   {e:"🍄",n:"Amanita phalloides",d:"Mortelle : 95 % des intoxications fatales"},
+   {e:"🌰",n:"Tuber melanosporum",d:"La truffe noire, ascomycète hypogé"},
+   {e:"🍞",n:"Saccharomyces cerevisiae",d:"La levure du pain, de la bière et du vin"},
+   {e:"🌽",n:"Ustilago maydis",d:"Charbon du maïs : Basidiomycète parasite"},
+   {e:"🧺",n:"Mucor mucedo",d:"Croûte des tommes (Mucoromycota)"}]},
+ {name:"Végétaux", emoji:"🌿", color:"#16a34a", bg:"radial-gradient(circle at 30% 20%, #052e16, #07150b)",
+  tagline:"Les autotrophes à la chlorophylle",
+  organisms:[
+   {e:"🌳",n:"Quercus robur",d:"Le chêne pédonculé de nos forêts"},
+   {e:"🌾",n:"Triticum aestivum",d:"Le blé qui nourrit le monde"},
+   {e:"🌹",n:"Papaver rhoeas",d:"Le coquelicot des moissons"},
+   {e:"🌿",n:"Polytrichum commune",d:"Grande mousse des sous-bois humides"},
+   {e:"🍃",n:"Pteridium aquilinum",d:"La fougère aigle"},
+   {e:"🌲",n:"Abies alba",d:"Le sapin des Vosges, gymnosperme"}]},
+ {name:"Animaux", emoji:"🦊", color:"#f59e0b", bg:"radial-gradient(circle at 30% 20%, #451a03, #1a0e04)",
+  tagline:"Hétérotrophes par ingestion",
+  organisms:[
+   {e:"🦔",n:"Erinaceus europaeus",d:"Le hérisson de nos jardins"},
+   {e:"🐝",n:"Apis mellifera",d:"L'abeille, pollinisatrice essentielle"},
+   {e:"🧑",n:"Homo sapiens",d:"Oui, nous faisons partie du règne animal !"},
+   {e:"🪱",n:"Lumbricus terrestris",d:"Le ver de terre, ingénieur du sol"},
+   {e:"🐌",n:"Helix pomatia",d:"L'escargot de Bourgogne"},
+   {e:"🦅",n:"Turdus merula",d:"Le merle noir, chanteur du printemps"}]}
+];
+
+const LINKS = [
+ {from:"🍄 Champignons", to:"🦊 Animaux", c1:"#d946ef", c2:"#f59e0b",
+  title:"Les plus proches cousins !",
+  text:"Tous deux hétérotrophes (ne fabriquent pas leur matière organique), tous deux à patron chitineux : la chitine des carapaces d'insectes est la même molécule que la paroi fongique ! Les champignons sont bien plus proches des animaux que des végétaux : ensemble, ils forment le groupe des Opisthochontes. C'est LE lien clé du document d'origine, celui qui a fait sortir les champignons du règne végétal."},
+ {from:"🌊 Chromistes", to:"🌿 Végétaux", c1:"#0ea5e9", c2:"#16a34a",
+  title:"Cousins par la photosynthèse",
+  text:"Les algues brunes (Laminaria, Fucus) sont photosynthétiques comme les végétaux, mais leurs pigments bruns et leur structure les placent dans un règne à part. Quant aux mildious, leur paroi est cellulosique — un caractère végétal qui longtemps a trompé les mycologues !"},
+ {from:"🔬 Protistes", to:"🦊 Animaux", c1:"#a855f7", c2:"#f59e0b",
+  title:"Le blob mange comme un animal",
+  text:"Le blob (Physarum) et les amibes se nourrissent par INGESTION (englobement), comme les animaux. Mais unicellulaires, ils restent des Protistes. Le document rappelle que les myxomycètes étaient étudiés par les mycologues… sans être des champignons !"},
+ {from:"🌋 Archées", to:"🍄🦊 Eucaryotes", c1:"#e11d48", c2:"#a855f7",
+  title:"Les archées, proches de nos cellules",
+  text:"Bien que procaryotes comme les bactéries, les archées partagent des mécanismes cellulaires fondamentaux avec les eucaryotes (nous, champignons, animaux) : elles sont leurs plus proches parentes parmi les procaryotes."},
+ {from:"🌊 Chromistes", to:"🍄 Champignons", c1:"#0ea5e9", c2:"#d946ef",
+  title:"Les faux champignons",
+  text:"Mildious et moisissures aquatiques ressemblent à s'y tromper aux champignons (mode de vie saprophyte ou parasite). Mais leur paroi cellulosique et leurs spores nageuses biflagellées les en excluent : le document les range parmi les Chromistes, aux côtés des algues brunes."},
+ {from:"🧫 Bactéries", to:"🌿 Végétaux", c1:"#f97316", c2:"#16a34a",
+  title:"Ancêtres des chloroplastes",
+  text:"Les chloroplastes des végétaux descendent de bactéries photosynthétiques (cyanobactéries) absorbées il y a plus d'un milliard d'années : la chlorophylle est d'origine bactérienne !"}
+];
+
+const DIVISIONS = [
+ {name:"Chytridiomycota", emoji:"🦠", color:"#d946ef",
+  traits:["Le groupe le plus PRIMITIF des « vrais » champignons","Appareil végétatif cœnocylique (filaments non cloisonnés)","Spores FLAGELLÉES (un flagelle postérieur)"],
+  examples:[{e:"🐸",n:"Batrachochytrium dendrobatidis",d:"Parasite dévastateur des grenouilles"},{e:"💧",n:"Chytridium spp.",d:"Parasites d'algues, aquatiques"}]},
+ {name:"Mucoromycota", emoji:"🧺", color:"#c026d3",
+  traits:["Ex-Zygomycota (moisissures et symbiotes)","Filaments non cloisonnés (siphon)","Inclut la sous-division Glomeromycotina (mycorhizes à arbuscules)"],
+  examples:[{e:"🍞",n:"Mucor / Rhizopus",d:"Fromages (croûte des tommes), enzymes, acides"},{e:"🌳",n:"Glomus / Endogone",d:"Mycorhizes essentielles aux plantes (Glomeromycotina)"},{e:"🌿",n:"Mortierella",d:"Moisissure commune des sols"}]},
+ {name:"Zoopagomycota", emoji:"🦗", color:"#b017c9",
+  traits:["Ex-Zygomycota également (parasites)","Filaments non cloisonnés (siphon)","Parasites d'animaux, d'amibes, de nématodes… et de champignons !"],
+  examples:[{e:"🦗",n:"Entomophthora",d:"Parasite des insectes (biocontrôle)"},{e:"🪱",n:"Zoopagales",d:"Parasites d'amibes et de nématodes"},{e:"🪰",n:"Harpellales",d:"Vivent dans l'intestin des larves aquatiques"}]},
+ {name:"Ascomycota", emoji:"🧀", color:"#e879f9",
+  traits:["Spores sexuées formées DANS un sac : l'ASQUE","Reproduction asexuée fréquente (anamorphes = moisissures)","+ de 40 000 espèces : le plus grand groupe"],
+  examples:[{e:"🌰",n:"Truffes / Morilles / Pézizes",d:"Les stars gourmandes"},{e:"🧀",n:"Penicillium / Aspergillus",d:"Fromages, pénicilline, saké"},{e:"🍇",n:"Botrytis cinerea",d:"Pourriture noble des Sauternes"},{e:"🍞",n:"Saccharomyces",d:"Levures du pain, du vin et de la bière"}]},
+ {name:"Basidiomycota", emoji:"🍄", color:"#f0abfc",
+  traits:["Spores formées À L'EXTÉRIEUR des cellules : les BASIDES","Hyménophore varié : lames, tubes, plis, aiguillons","Les champignons « supérieurs » des expositions"],
+  examples:[{e:"🍄",n:"Amanites / Bolets / Girolles",d:"Les champignons à chapeau classiques"},{e:"🌽",n:"Rouilles et charbons",d:"Parasites des céréales (Ustilago maydis)"},{e:"👂",n:"Auricularia / Trémelles",d:"Basides cloisonnées, consistance gélatineuse"}]}
+];
+
+function treeSVG(highlight) {
+  const branches = [
+    ["M25,150 L90,50",.2],["M90,50 L200,25",.55],["M90,50 L200,65",.65],["M25,150 L90,200",.35],
+    ["M90,200 L200,120",.75],["M90,200 L200,160",.85],["M90,200 L200,215",.95],["M90,200 L200,265",1.05],
+    ["M200,215 L310,200",1.25],["M200,215 L310,240",1.35]
+  ];
+  const labels = [
+    [25,154,"VIE","#fff",700,10,.4],[92,44,"Procaryotes","#fff",700,12,.9],[92,212,"Eucaryotes","#fff",700,12,1.1],
+    [200,20,"🌋 Archées","#e11d48",700,10,1.2],[200,60,"🧫 Bactéries","#f97316",700,10,1.3],
+    [200,115,"🔬 Protistes (blob)","#a855f7",700,10,1.4],[200,155,"🌊 Chromistes","#0ea5e9",700,10,1.5],
+    [200,212,"Opisthochontes","#fff",700,12,1.6],
+    [310,197,"🍄 Fungi","#d946ef",700,10,1.75],[310,237,"🦊 Animaux","#f59e0b",700,10,1.85],[200,262,"🌿 Végétaux","#16a34a",700,10,1.7]
+  ];
+  const circles = [
+    [160,42,118,36,"#111",0,2.0],[232,188,146,100,"#111",0,2.15],[263,220,100,30,"#ef4444",1,2.35]
+  ];
+  let s = '<svg viewBox="0 0 380 300" class="tree" width="100%" style="max-width:480px;display:block;margin:0 auto">';
+  for (const [d,dl] of branches) s += `<path class="branch" d="${d}" style="animation-delay:${dl}s"/>`;
+  if (highlight) for (const [cx,cy,rx,ry,col,red,dl] of circles)
+    s += `<ellipse class="hl${red?" red":""}" cx="${cx}" cy="${cy}" rx="${rx}" ry="${ry}" stroke="${col}"${red?' style="animation-delay:'+dl+'s"':' style="animation-delay:'+dl+'s"'}/>`;
+  for (const [x,y,t,f,w,fs,dl] of labels)
+    s += `<text x="${x}" y="${y}" font-size="${fs}" fill="${f}" font-weight="${w}" font-family="sans-serif" style="animation-delay:${dl}s">${t}</text>`;
+  if (highlight) s += `<text x="255" y="207" font-size="8" fill="rgba(255,255,255,0.45)" font-family="sans-serif" style="animation-delay:2.6s">chitine !</text>`;
+  return s + "</svg>";
+}
+
+let idx = 0, playing = true, timer = null;
+
+function esc(s){ return s.replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;"); }
+
+function renderKingdom(){
+  const k = KINGDOMS[idx];
+  document.body.style.background = k.bg;
+  const card = document.getElementById("k-card");
+  card.style.borderColor = k.color + "66";
+  card.className = "card fade-in";
+  if (k.type === "tree") {
+    card.innerHTML =
+      `<div class="k-head"><span class="k-emoji">${k.emoji}</span>
+        <div><div class="k-name" style="color:${k.color}">${k.name}</div>
+        <div class="k-tag">${k.tagline}</div></div></div>` +
+      treeSVG(true) +
+      `<div class="legend">⚫ <b>Procaryotes</b> : sans noyau (Archées, Bactéries) &nbsp;·&nbsp; ⚫ <b>Eucaryotes</b> : à noyau vrai &nbsp;·&nbsp; 🔴 <b>Opisthochontes</b> : champignons + animaux, unis par la chitine !</div>`;
+  } else {
+  card.innerHTML =
+    `<div class="k-head"><span class="k-emoji">${k.emoji}</span>
+      <div><div class="k-name" style="color:${k.color}">${k.name}</div>
+      <div class="k-tag">${k.tagline}</div></div></div>
+    <div class="org-grid">` +
+    k.organisms.map((o,i) =>
+      `<div class="org" style="animation-delay:${0.15+i*0.1}s;border-color:${k.color}40">
+        <span class="emo" style="animation-delay:${i*0.4}s">${o.e}</span>
+        <div class="name">${esc(o.n)}</div><div class="desc">${esc(o.d)}</div></div>`).join("") +
+    `</div>`;
+  }
+  const dots = document.getElementById("dots");
+  dots.innerHTML = KINGDOMS.map((kk,i) =>
+    `<button class="dot ${i===idx?"on":""}" style="${i===idx?"background:"+kk.color:""}" title="${esc(kk.name)}" onclick="goTo(${i})"></button>`).join("");
+}
+
+function renderLinks(){
+  document.getElementById("liens-list").innerHTML = LINKS.map((l,i) =>
+    `<div class="link-card" style="animation-delay:${i*0.08}s">
+      <div class="badges">
+        <span class="badge" style="color:${l.c1};border-color:${l.c1}66;background:${l.c1}22">${esc(l.from)}</span>
+        <span class="arrow" style="color:${l.c2}">⇄</span>
+        <span class="badge" style="color:${l.c2};border-color:${l.c2}66;background:${l.c2}22">${esc(l.to)}</span>
+      </div>
+      <div class="link-title" style="color:${l.c1}">${esc(l.title)}</div>
+      <div class="link-text">${esc(l.text)}</div></div>`).join("");
+}
+
+function renderDivisions(){
+  document.getElementById("div-grid").innerHTML = DIVISIONS.map((d,i) =>
+    `<div class="div-card" style="border-color:${d.color}55;animation-delay:${i*0.12}s">
+      <div class="div-head"><span class="div-emoji" style="animation-delay:${i*0.5}s">${d.emoji}</span>
+      <span class="div-name" style="color:${d.color}">${esc(d.name)}</span></div>
+      <ul>${d.traits.map(t=>`<li style="--c:${d.color}">${esc(t)}</li>`).join("")}</ul>
+      ${d.examples.map((o,j)=>`<div class="ex" style="background:${d.color}18;animation-delay:${0.3+i*0.1+j*0.1}s">
+        <span class="emo">${o.e}</span><div><span class="n">${esc(o.n)}</span> <span class="d">— ${esc(o.d)}</span></div></div>`).join("")}
+    </div>`).join("");
+}
+
+function tick(){ idx = (idx+1)%KINGDOMS.length; renderKingdom(); }
+function togglePlay(){
+  playing = !playing;
+  document.getElementById("play-btn").textContent = playing ? "⏸ Pause" : "▶ Lecture";
+  if (timer) { clearInterval(timer); timer = null; }
+  if (playing && currentView === "voyage") timer = setInterval(tick, 5000);
+}
+function step(d){ idx = (idx+d+KINGDOMS.length)%KINGDOMS.length; renderKingdom(); if(!playing) return; if(timer){clearInterval(timer);} timer=setInterval(tick,5000); }
+function goTo(i){ idx = i; renderKingdom(); }
+function show(v){
+  document.querySelectorAll(".tab").forEach(t=>t.classList.remove("active"));
+  document.querySelector(`.tab[onclick="show('${v}')"]`).classList.add("active");
+  ["voyage","liens","divisions","arbre"].forEach(id=>{
+    const el = document.getElementById(id);
+    el.style.display = (id===v || (id==="voyage" && v==="voyage")) ? "" : "none";
+  });
+  currentView = v;
+  if (timer) { clearInterval(timer); timer = null; }
+  if (v === "voyage") {
+    if (playing) timer = setInterval(tick, 5000);
+    renderKingdom();
+  } else {
+    document.body.style.background = "radial-gradient(circle at 30% 20%, #1e1b4b, #0a0a1a)";
+  }
+  if (v === "liens") { renderLinks(); }
+  if (v === "arbre") { document.getElementById("tree-arbre").innerHTML = treeSVG(true); }
+  if (v === "divisions") renderDivisions();
+}
+let currentView = "voyage";
+
+document.addEventListener("keydown", (e) => {
+  if (e.key === "ArrowRight") step(1);
+  if (e.key === "ArrowLeft") step(-1);
+  if (e.key === " " && currentView === "voyage") { e.preventDefault(); togglePlay(); }
+});
+
+renderKingdom();
+show("arbre");
+</script>
+<script type="module" src="https://static.cloudflareinsights.com/beacon.min.js/vce701823e78c4301a35b7e07294d87301792088814092" integrity="sha512-UKNk8GbxkABxKcXYuLkO16EleLGUkcvJWtpSNmExE0Too3ZaFAxTscNWEc1OdAv5/BikHawapSCaiD2XCmp+Bw==" nonce="4eGhXOKdb5AEHytP1XfVoA==" data-cf-beacon='{"version":"2024.11.0","token":"36b4216ae2dc4d5488c249161e71fe1e","spa":2}' crossorigin="anonymous"></script>
+</body>
+</html>
