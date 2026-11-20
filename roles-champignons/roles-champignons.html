@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Le rôle des champignons dans les écosystèmes — SMRY</title>
+<style>
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body {
+    font-family: -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    min-height:100vh; color:#fff; padding:16px; display:flex; flex-direction:column; align-items:center;
+    background: radial-gradient(circle at 30% 20%, #2e1065, #0d0418); overflow:hidden;
+  }
+  h1 { font-size:1.5rem; text-align:center; }
+  .subtitle { color:rgba(255,255,255,.5); font-size:.85rem; text-align:center; margin:4px 0 14px; }
+  .slide {
+    width:100%; max-width:880px; min-height:56vh; border-radius:24px; padding:24px 30px;
+    background:rgba(255,255,255,.05); border:1px solid rgba(255,255,255,.15); position:relative;
+  }
+  .fade-in { animation: fadeIn .5s ease; }
+  @keyframes fadeIn { from { opacity:0; transform:translateY(16px);} to { opacity:1; transform:none;} }
+  h2 { font-size:1.3rem; color:#f0abfc; margin-bottom:12px; }
+  h3 { font-size:.95rem; margin:10px 0 5px; }
+  p, li { font-size:.9rem; color:rgba(255,255,255,.85); line-height:1.5; }
+  .kpis { display:flex; flex-wrap:wrap; gap:12px; }
+  .kpi { flex:1 1 180px; border-radius:16px; padding:14px; text-align:center; border:1px solid rgba(217,70,239,.4); background:rgba(217,70,239,.1); animation: fadeIn .5s ease backwards; }
+  .kpi b { display:block; font-size:1.3rem; color:#f0abfc; }
+  .kpi span { font-size:.75rem; color:rgba(255,255,255,.7); }
+  .role-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:12px; margin-top:10px; }
+  .role-card { border-radius:16px; padding:14px; border:1px solid; animation: fadeIn .5s ease backwards; }
+  .role-card h3 { margin:0 0 6px; font-size:.95rem; }
+  .role-card p { font-size:.78rem; line-height:1.45; }
+  .sap { border-color:#16a34a; background:rgba(22,163,74,.12); } .sap h3 { color:#4ade80; }
+  .par { border-color:#f59e0b; background:rgba(245,158,11,.12); } .par h3 { color:#fbbf24; }
+  .sym { border-color:#0ea5e9; background:rgba(14,165,233,.12); } .sym h3 { color:#38bdf8; }
+  .tag { display:inline-block; font-size:.7rem; font-weight:700; padding:2px 10px; border-radius:999px; margin:2px 4px 2px 0; }
+  .t-edible { background:rgba(22,163,74,.25); color:#4ade80; }
+  .t-tox { background:rgba(245,158,11,.25); color:#fbbf24; }
+  .t-dead { background:rgba(239,68,68,.25); color:#f87171; }
+  .t-info { background:rgba(255,255,255,.12); color:rgba(255,255,255,.75); }
+  .grid2 { display:grid; grid-template-columns:1fr 1fr; gap:16px; }
+  ul { margin-left:20px; }
+  .warn { background:rgba(239,68,68,.15); border:1px solid rgba(239,68,68,.5); border-radius:14px; padding:10px 14px; font-size:.82rem; margin-top:10px; animation: fadeIn .5s ease .5s backwards; }
+  .note { background:rgba(14,165,233,.12); border:1px solid rgba(14,165,233,.4); border-radius:14px; padding:10px 14px; font-size:.82rem; margin-top:10px; animation: fadeIn .5s ease .5s backwards; }
+  .stamp { font-size:1.8rem; text-align:center; margin:4px 0 10px; }
+  .controls { display:flex; gap:12px; margin-top:14px; flex-wrap:wrap; justify-content:center; }
+  .btn { padding:8px 18px; border-radius:999px; cursor:pointer; font-size:.85rem; background:transparent; color:rgba(255,255,255,.85); border:1px solid rgba(255,255,255,.3); transition:all .2s; }
+  .btn:hover { background:rgba(255,255,255,.12); }
+  .btn.main { background:#d946ef; color:#fff; border-color:transparent; font-weight:700; }
+  .dots { display:flex; gap:7px; margin-top:12px; justify-content:center; }
+  .dot { width:9px; height:9px; border-radius:999px; border:none; cursor:pointer; background:rgba(255,255,255,.25); transition:width .3s; }
+  .dot.on { width:26px; background:#f0abfc; }
+  .counter { margin-top:10px; font-size:.75rem; color:rgba(255,255,255,.4); }
+  .footer { position:fixed; bottom:6px; left:0; right:0; text-align:center; font-size:.62rem; color:rgba(255,255,255,.3); }
+  table { width:100%; border-collapse:collapse; font-size:.8rem; margin-top:6px; }
+  th { text-align:left; padding:5px 8px; color:#f0abfc; border-bottom:1px solid rgba(240,171,252,.4); }
+  td { padding:4px 8px; border-bottom:1px solid rgba(255,255,255,.08); color:rgba(255,255,255,.85); }
+  @media (max-width:640px) {
+    body { overflow:auto; padding:10px; }
+    .slide { min-height:auto; padding:16px; }
+    h2 { font-size:1.1rem; }
+    .role-grid { grid-template-columns:1fr; }
+    .grid2 { grid-template-columns:1fr; }
+    .kpi b { font-size:1.1rem; }
+  }
+</style>
+</head>
+<body>
+<h1>🍄 Le rôle des champignons dans les écosystèmes</h1>
+<p class="subtitle">Données issues des planches pédagogiques de la <b>Société Mycologique de France</b> (panneau 04) et des récoltes 2025 de la <b>Société Mycologique de La Roche-sur-Yon</b> (SMRY)</p>
+
+<div class="slide" id="slide"></div>
+
+<div class="controls">
+  <button class="btn" onclick="step(-1)">← Précédent</button>
+  <button class="btn main" id="play-btn" onclick="togglePlay()">⏸ Pause</button>
+  <button class="btn" onclick="step(1)">Suivant →</button>
+</div>
+<div class="dots" id="dots"></div>
+<div class="counter" id="counter"></div>
+<p class="footer">Animation réalisée à partir des panneaux didactiques de la <b>Société Mycologique de France</b>, par l'IA française <b>Mistral</b>, à la demande de la <b>Société Mycologique de La Roche-sur-Yon</b> 🍄 · Espace : avancer · Retour : reculer</p>
+
+<script>
+const SLIDES = [
+{ title:"Hétérotrophes : les « consommateurs » de la nature 🍽️", html:`
+  <div class="stamp">🌿➡️🍄</div>
+  <div class="kpis">
+    <div class="kpi" style="animation-delay:.1s"><b>Sans chlorophylle</b><span>comme les végétaux, ils ne fabriquent rien eux-mêmes</span></div>
+    <div class="kpi" style="animation-delay:.25s"><b>Obligés de consommer</b><span>des molécules organiques fabriquées par d'autres</span></div>
+    <div class="kpi" style="animation-delay:.4s"><b>3 rôles possibles</b><span>saprophyte · parasite · symbiote</span></div>
+  </div>
+  <p style="margin-top:14px">À l'inverse des végétaux (autotrophes, qui produisent leur matière grâce au soleil), le champignon doit trouver sa nourriture « toute faite » dans son milieu. C'est ce qui définit son statut d'<b>hétérotrophe</b> — et lui donne trois stratégies de vie.</p>`},
+
+{ title:"🌿 1. La SAPROPHYTIE — les nettoyeurs", html:`
+  <p>Le saprophyte décompose la <b>matière organique morte ou inerte</b> : bois mort, feuilles tombées, cadavres, excréments… Il participe à l'élaboration de l'<b>humus</b>. Sans lui, la terre serait envahie de déchets !</p>
+  <div class="role-grid">
+    <div class="role-card sap" style="animation-delay:.2s">
+      <h3>✅ Comestibles</h3>
+      <p><span class="tag t-edible">comestible</span> Rosé des prés (<i>Agaricus campestris</i>)<br>
+      <span class="tag t-edible">comestible</span> Coprin chevelu jeune (<i>Coprinus comatus</i>)<br>
+      <span class="tag t-edible">comestible</span> Pleurote en huître (<i>Pleurotus ostreatus</i>)<br>
+      <span class="tag t-edible">comestible</span> Marasme des oréades (<i>Marasmius oreades</i>)<br>
+      <span class="tag t-edible">comestible</span> Coulemelle (<i>Macrolepiota procera</i>) — litière de feuilles</p>
+    </div>
+    <div class="role-card sap" style="animation-delay:.35s">
+      <h3>⚠️ Toxiques</h3>
+      <p><span class="tag t-tox">toxique</span> Agaric jaunissant (<i>Agaricus xanthodermus</i>) — odeur d'encre, jaunit fort<br>
+      <span class="tag t-tox">toxique</span> Clitocybe blanchi (<i>Clitocybe dealbata</i>) — pelouses</p>
+    </div>
+    <div class="role-card sap" style="animation-delay:.5s">
+      <h3>☠️ Mortels (sur bois mort !)</h3>
+      <p><span class="tag t-dead">mortel</span> Galère marginée (<i>Galerina marginata</i>) — syndrome phalloïdien, sur bois pourri<br>
+      <span class="tag t-dead">mortel</span> Petite lépiote (<i>Lepiota helveola</i>) — syndrome phalloïdien</p>
+    </div>
+  </div>
+  <div class="warn">⚠️ Attention : « sur bois mort » ne veut pas dire « inoffensif » — la galère marginée tue ! Toujours récolter avec un couteau, dans un panier, et faire vérifier.</div>`},
+
+{ title:"🪵 2. Le PARASITISME — vivre aux dépens d'un hôte", html:`
+  <p>Le parasite s'attaque à de la <b>matière organique vivante</b> et porte préjudice à son hôte (animal, végétal, autre champignon). Aucun échange réciproque : l'hôte ne reçoit rien. Il joue un rôle d'<b>élimination des individus affaiblis</b>, accélérant le renouvellement des générations.</p>
+  <div class="grid2" style="margin-top:8px">
+    <div>
+      <h3 style="color:#fbbf24">Deux types de parasites</h3>
+      <ul>
+        <li><b>Biotrophes</b> : ne se développent que sur des hôtes <b>vivants</b> (ex. rouilles des céréales, oïdium)</li>
+        <li><b>Nécrotrophes</b> : tuent d'abord l'hôte, puis continuent sur la matière morte (ex. <i>Botrytis cinerea</i> sur la vigne)</li>
+      </ul>
+    </div>
+    <div>
+      <h3 style="color:#fbbf24">Exemples</h3>
+      <ul>
+        <li><span class="tag t-edible">comestible cuit</span> Armillaire couleur de miel (<i>Armillaria mellea</i>) — parasite de feuillus, <b>toxique cru</b></li>
+        <li><span class="tag t-edible">comestible</span> Polypore soufré (<i>Laetiporus sulphureus</i>) — « poule des bois », sur arbres affaiblis ; peut causer des troubles selon l'arbre hôte</li>
+        <li><span class="tag t-edible">comestible jeune</span> Pholiote du peuplier (<i>Agrocybe aegerita</i>) — à petite dose, jeune et tendre<br>
+        <span class="tag t-edible">comestible jeune</span> Langue de bœuf (<i>Fistulina hepatica</i>) — idem, jeune et tendre, en petite quantité</li>
+        <li><span class="tag t-info">parasite de champignons</span> <i>Hypomyces</i> recouvre d'autres agarics</li>
+      </ul>
+    </div>
+  </div>
+  <div class="warn">☠️ Un parasite d'arbre n'est pas « mortel pour l'homme » en soi… mais méfiance : l'armillaire crue est toxique, et le polypore soufré récolté sur certains arbres (if, eucalyptus) provoque des intoxications.</div>`},
+
+{ title:"🔄 Saprophyte ET parasite : oui, ça existe !", html:`
+  <p>De nombreux champignons sont <b>facultatifs</b> : ils commencent en parasites sur un arbre vivant, puis continuent en saprophytes après sa mort. Ce sont les <b>parasites nécrotrophes</b> du panneau.</p>
+  <div class="grid2" style="margin-top:8px">
+    <div>
+      <h3 style="color:#fbbf24">Exemples « double casquette »</h3>
+      <ul>
+        <li><b>Armillaire de Gallia</b> (<i>Armillaria gallica</i>) : parasite vivant sur racines, puis saprophyte sur la souche morte — dans vos récoltes 2025, c'est elle qui porte le double rôle « parasite et saprophyte lignicole ». <b>⚠️ Attention : elle est toxique !</b></li>
+        <li><b>Polypore soufré</b> (<i>Laetiporus sulphureus</i>) : parasite de l'arbre affaibli, puis décomposeur du tronc mort</li>
+        <li><b>Hypomycès</b>, <b>Stereum</b>… suivent le même schéma</li>
+      </ul>
+    </div>
+    <div>
+      <h3 style="color:#4ade80">Et l'inverse ?</h3>
+      <p>Oui, plus rarement : certains saprophytes opportunistes deviennent parasites si l'hôte faiblit (ex. <i>Kretzschmaria deusta</i>, la « maladie du charbon de l'écorce », d'abord sur bois mort puis sur arbre affaibli).</p>
+      <p style="margin-top:6px"><b>En résumé</b> : la frontière n'est pas figée — beaucoup de champignons naviguent entre les deux rôles au cours de leur vie.</p>
+    </div>
+  </div>`},
+
+{ title:"🤝 3. La SYMBIOSE — l'association gagnant-gagnant", html:`
+  <p>Association à <b>bénéfices réciproques</b> entre le champignon et un organisme <b>autotrophe</b> (qui produit sa matière par photosynthèse). Deux cas distincts :</p>
+  <div class="grid2" style="margin-top:8px">
+    <div class="role-card sym" style="animation-delay:.2s">
+      <h3>🪨 Les LICHENS</h3>
+      <p>Symbiose <b>champignon + algue</b> (ou cyanobactérie). Le champignon héberge l'algue, qui lui fournit les sucres de la photosynthèse ; en échange il lui offre eau, sels minéraux et protection. Morphologie totalement différente des deux partenaires seuls !<br>
+      <span class="tag t-info">ex. Physconia distorta</span></p>
+    </div>
+    <div class="role-card sym" style="animation-delay:.35s">
+      <h3>🌳 Les MYCORHIZES</h3>
+      <p>Symbiose <b>plante + mycélium</b>, au niveau des racines. Échanges réciproques :
+      <ul style="margin-top:4px">
+        <li>la plante donne ses <b>glucides</b> (nourriture du champignon)</li>
+        <li>le mycélium apporte <b>eau, sels minéraux, oligo-éléments</b></li>
+        <li>il protège la plante contre certains parasites (antibiotiques)</li>
+      </ul></p>
+    </div>
+  </div>
+  <div class="role-grid" style="margin-top:10px">
+    <div class="role-card sym" style="animation-delay:.5s">
+      <h3>✅ Comestibles symbiotes</h3>
+      <p><span class="tag t-edible">comestible</span> Cèpe de Bordeaux (<i>Boletus edulis</i>)<br>
+      <span class="tag t-edible">comestible</span> Girolle (<i>Cantharellus cibarius</i>)<br>
+      <span class="tag t-edible">comestible</span> Lactaire délicieux (<i>Lactarius deliciosus</i>)<br>
+      <span class="tag t-edible">comestible</span> Truffe du Périgord (<i>Tuber melanosporum</i>)</p>
+    </div>
+    <div class="role-card sym" style="animation-delay:.65s">
+      <h3>⚠️ Toxiques symbiotes</h3>
+      <p><span class="tag t-tox">toxique</span> Amanite tue-mouches (<i>Amanita muscaria</i>) — hallucinations, sueurs, troubles graves</p>
+    </div>
+    <div class="role-card sym" style="animation-delay:.8s">
+      <h3>☠️ Mortels symbiotes</h3>
+      <p><span class="tag t-dead">mortel</span> Cortinaire orellanus — destruction des reins<br>
+      <span class="tag t-dead">mortel</span> Amanite phalloïde (<i>Amanita phalloides</i>) — 95 % des décès !</p>
+    </div>
+  </div>`},
+
+{ title:"🌲 Les ECTOmycorhizes (ecto = « dehors » )", html:`
+  <p>Le mycélium forme un <b>manteau</b> autour de la pointe des racines + un réseau (réseau de Hartig) <b>entre</b> les cellules, sans jamais entrer dedans.</p>
+  <table style="margin-top:8px">
+    <tr><th>Plante hôte</th><th>Champignon ectomycorhizien</th><th>Comestibilité</th></tr>
+    <tr><td>Chêne, hêtre, châtaignier, épicéa</td><td>Cèpe de Bordeaux (<i>Boletus edulis</i>)</td><td>✅ excellent comestible</td></tr>
+    <tr><td>Bouleau, pin</td><td>Amanite tue-mouches (<i>Amanita muscaria</i>)</td><td>⚠️ toxique</td></tr>
+    <tr><td>Pin sylvestre</td><td>Lactaire délicieux (<i>Lactarius deliciosus</i>)</td><td>✅ comestible</td></tr>
+    <tr><td>Chêne, noisetier</td><td>Truffe noire (<i>Tuber melanosporum</i>)</td><td>✅ comestible (précieux)</td></tr>
+    <tr><td>Châtaignier, chêne</td><td>Girolle (<i>Cantharellus cibarius</i>)</td><td>✅ comestible</td></tr>
+    <tr><td>Bouleau, peuplier</td><td>Cortinaire couleur de rocou (<i>Cortinarius orellanus</i>)</td><td>☠️ mortel !</td></tr>
+  </table>
+  <div class="note">🌲 Surtout les <b>arbres</b> (feuillus et résineux) — environ 5 % des plantes, mais ce sont eux qui structurent nos forêts. Presque tous les bolets, amanites, russules et lactaires sont ectomycorhiziens.</div>`},
+
+{ title:"🌾 Les ENDOmycorhizes (endo = « dedans », à arbuscules)", html:`
+  <p>Le mycélium pénètre <b>à l'intérieur des cellules</b> de la racine et y forme des arbuscules (petits arbres ramifiés) où se font les échanges. C'est la forme la plus ancienne et la plus répandue : <b>~80 % des plantes</b> !</p>
+  <table style="margin-top:8px">
+    <tr><th>Plante hôte</th><th>Champignon (Glomeromycotina)</th><th>Comestibilité</th></tr>
+    <tr><td>Blé, maïs, tournesol, prairies</td><td><i>Glomus</i>, <i>Rhizophagus</i>…</td><td>— (invisibles, pas de carpophore)</td></tr>
+    <tr><td>Pommier, pêcher, olivier, vigne</td><td><i>Rhizophagus irregularis</i>…</td><td>—</td></tr>
+    <tr><td>Érables, frênes (villes)</td><td><i>Glomus mosseae</i>…</td><td>—</td></tr>
+  </table>
+  <div class="note">🌱 Les champignons à arbuscules appartiennent à la sous-division <b>Glomeromycotina</b> (division Mucoromycota) : pas de « chapeau », donc rien à récolter — mais sans eux, la plupart de nos cultures et de nos fruitiers dépérissent.</div>
+  <p style="margin-top:8px;font-size:.82rem;color:rgba(255,255,255,.65)">Autres formes spécialisées : mycorhizes des <b>éricacées</b> (bruyères, myrtilles — champignons ascomycètes) et des <b>orchidées</b> (la graine ne germe qu'avec son champignon !).</p>`},
+
+{ title:"🧩 Récapitulatif des 3 rôles", html:`
+  <table>
+    <tr><th>Rôle</th><th>Matière attaquée</th><th>Échange ?</th><th>Exemples marquants</th></tr>
+    <tr><td>🌿 <b>Saprophyte</b></td><td>Morte (bois, feuilles, cadavres)</td><td>Non</td><td>Rosé des prés ✅ · Galère marginée ☠️</td></tr>
+    <tr><td>🪵 <b>Parasite</b></td><td>Vivante (biotrophe) ou tuée puis morte (nécrotrophe)</td><td>Non</td><td>Armillaire ⚠️/✅ cuite · Polypore soufré ✅</td></tr>
+    <tr><td>🤝 <b>Symbiote</b></td><td>Association avec un autotrophe</td><td><b>Oui, réciproque</b></td><td>Cèpe ✅ · Amanite tue-mouches ⚠️ · Amanite phalloïde ☠️</td></tr>
+  </table>
+  <div class="note" style="margin-top:12px">🔄 Et un champignon peut changer de rôle : parasite vivant → saprophyte sur le mort (nécrotrophes comme l'armillaire). La nature adore les nuances !</div>
+  <p style="margin-top:12px;text-align:center;color:rgba(255,255,255,.7);font-size:.85rem">Sans les champignons, la planète serait couverte de déchets… et nos forêts privées de leurs alliés souterrains. Merci d'en prendre soin ! 🍄</p>`},
+];
+
+let idx = 0, playing = true, timer = null;
+
+function render(){
+  const s = SLIDES[idx];
+  const el = document.getElementById("slide");
+  el.className = "slide fade-in";
+  el.innerHTML = `<h2>${s.title}</h2>` + s.html;
+  document.getElementById("dots").innerHTML = SLIDES.map((_,i)=>
+    `<button class="dot ${i===idx?"on":""}" onclick="goTo(${i})"></button>`).join("");
+  document.getElementById("counter").textContent = `${idx+1} / ${SLIDES.length}`;
+}
+function tick(){ idx = (idx+1)%SLIDES.length; render(); }
+function togglePlay(){
+  playing = !playing;
+  document.getElementById("play-btn").textContent = playing ? "⏸ Pause" : "▶ Lecture";
+  if (timer) { clearInterval(timer); timer = null; }
+  if (playing) timer = setInterval(tick, 9000);
+}
+function step(d){ idx = (idx+d+SLIDES.length)%SLIDES.length; render(); }
+function goTo(i){ idx = i; render(); }
+
+document.addEventListener("keydown", (e) => {
+  if (e.key === "ArrowRight" || e.key === " ") { e.preventDefault(); step(1); }
+  if (e.key === "ArrowLeft") step(-1);
+});
+
+render();
+if (playing) timer = setInterval(tick, 9000);
+</script>
+<script type="module" src="https://static.cloudflareinsights.com/beacon.min.js/vce701823e78c4301a35b7e07294d87301792088814092" integrity="sha512-UKNk8GbxkABxKcXYuLkO16EleLGUkcvJWtpSNmExE0Too3ZaFAxTscNWEc1OdAv5/BikHawapSCaiD2XCmp+Bw==" nonce="R4Js0zlwFRRKBJV0Njlqyg==" data-cf-beacon='{"version":"2024.11.0","token":"36b4216ae2dc4d5488c249161e71fe1e","spa":2}' crossorigin="anonymous"></script>
+</body>
+</html>
