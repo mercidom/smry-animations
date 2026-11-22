@@ -1,1 +1,199 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sous nos pieds, le mycélium — SMRY</title>
+<style>
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body {
+    font-family: -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    min-height:100vh; color:#fff; padding:16px; display:flex; flex-direction:column; align-items:center;
+    background: radial-gradient(circle at 30% 20%, #2e1065, #0d0418); overflow:hidden;
+  }
+  h1 { font-size:1.5rem; text-align:center; }
+  .subtitle { color:rgba(255,255,255,.5); font-size:.85rem; text-align:center; margin:4px 0 14px; }
+  .slide {
+    width:100%; max-width:860px; min-height:52vh; border-radius:24px; padding:24px 30px;
+    background:rgba(255,255,255,.05); border:1px solid rgba(255,255,255,.15); position:relative;
+  }
+  .fade-in { animation: fadeIn .5s ease; }
+  @keyframes fadeIn { from { opacity:0; transform:translateY(16px);} to { opacity:1; transform:none;} }
+  h2 { font-size:1.3rem; color:#f0abfc; margin-bottom:14px; }
+  h3 { font-size:.95rem; color:#f0abfc; margin:10px 0 6px; }
+  p, li { font-size:.9rem; color:rgba(255,255,255,.85); line-height:1.5; }
+  ul { margin-left:20px; }
+  .stamp { font-size:1.8rem; text-align:center; margin:6px 0 12px; }
+  .chips { display:flex; flex-wrap:wrap; gap:10px; margin-top:12px; }
+  .chip {
+    flex:1 1 150px; border-radius:16px; padding:12px 14px; text-align:center;
+    border:1px solid rgba(217,70,239,.4); background:rgba(217,70,239,.1);
+    animation: fadeIn .5s ease backwards;
+  }
+  .chip .emo { font-size:1.6rem; display:block; }
+  .chip b { display:block; font-size:.85rem; margin-top:4px; color:#f0abfc; }
+  .chip span { font-size:.75rem; color:rgba(255,255,255,.7); }
+  .grid2 { display:grid; grid-template-columns:1fr 1fr; gap:16px; align-items:center; }
+  .cycle-svg { width:100%; max-width:420px; display:block; margin:0 auto; }
+  .cycle-svg .node { animation: fadeIn .6s ease backwards; }
+  .cycle-svg .arrow { stroke:rgba(240,171,252,.7); stroke-width:2; fill:none; stroke-dasharray:6 5; animation: dash 1.2s linear infinite; }
+  @keyframes dash { to { stroke-dashoffset:-22; } }
+  .warn { background:rgba(239,68,68,.15); border:1px solid rgba(239,68,68,.5); border-radius:14px; padding:12px 16px; font-size:.85rem; margin-top:10px; animation: fadeIn .5s ease .5s backwards; }
+  .note { background:rgba(217,70,239,.12); border:1px solid rgba(217,70,239,.45); border-radius:14px; padding:12px 16px; font-size:.85rem; margin-top:10px; animation: fadeIn .5s ease .4s backwards; }
+  .ring-wrap { text-align:center; }
+  .ring { animation: ringGrow 3s ease-out backwards; transform-origin:center; }
+  @keyframes ringGrow { from { transform:scale(.25); opacity:0;} to { transform:scale(1); opacity:1;} }
+  .controls { display:flex; gap:12px; margin-top:14px; flex-wrap:wrap; justify-content:center; }
+  .btn { padding:8px 18px; border-radius:999px; cursor:pointer; font-size:.85rem; background:transparent; color:rgba(255,255,255,.85); border:1px solid rgba(255,255,255,.3); transition:all .2s; }
+  .btn:hover { background:rgba(255,255,255,.12); }
+  .btn.main { background:#d946ef; color:#fff; border-color:transparent; font-weight:700; }
+  .dots { display:flex; gap:7px; margin-top:12px; justify-content:center; }
+  .dot { width:9px; height:9px; border-radius:999px; border:none; cursor:pointer; background:rgba(255,255,255,.25); transition:width .3s; }
+  .dot.on { width:26px; background:#f0abfc; }
+  .counter { margin-top:10px; font-size:.75rem; color:rgba(255,255,255,.4); }
+  .footer { position:fixed; bottom:6px; left:0; right:0; text-align:center; font-size:.62rem; color:rgba(255,255,255,.3); padding:0 10px; }
+  @media (max-width:640px) {
+    body { overflow:auto; padding:10px; }
+    .slide { min-height:auto; padding:16px; }
+    h2 { font-size:1.1rem; }
+    .grid2 { grid-template-columns:1fr; }
+  }
+</style>
+</head>
+<body>
+<h1>🍄 Sous nos pieds, le mycélium</h1>
+<p class="subtitle">Société Mycologique de La Roche-sur-Yon — d'après la planche « Mycélium »</p>
 
+<div class="slide" id="slide"></div>
+
+<div class="controls">
+  <button class="btn" onclick="step(-1)">← Précédent</button>
+  <button class="btn main" id="play-btn" onclick="togglePlay()">⏸ Pause</button>
+  <button class="btn" onclick="step(1)">Suivant →</button>
+</div>
+<div class="dots" id="dots"></div>
+<div class="counter" id="counter"></div>
+<p class="footer">Animation réalisée à partir de la planche didactique « Mycélium », par l'IA française Mistral, à la demande de la SMRY 🍄 · Flèches du clavier : naviguer · Espace : pause</p>
+
+<script>
+const CYCLE_SVG = `
+<svg viewBox="0 0 300 300" class="cycle-svg">
+  <circle cx="150" cy="150" r="105" fill="none" stroke="rgba(255,255,255,.12)" stroke-width="1.5"/>
+  <path class="arrow" d="M150,45 A105,105 0 0 1 241,192"/>
+  <path class="arrow" d="M241,192 A105,105 0 0 1 59,192"/>
+  <path class="arrow" d="M59,192 A105,105 0 0 1 150,45"/>
+  <g class="node" style="animation-delay:.1s"><text x="150" y="38" text-anchor="middle" font-size="26">🌰</text><text x="150" y="66" text-anchor="middle" font-size="11" fill="#f0abfc" font-weight="700">SPORE</text></g>
+  <g class="node" style="animation-delay:.5s"><text x="252" y="200" text-anchor="middle" font-size="26">🕸️</text><text x="252" y="228" text-anchor="middle" font-size="11" fill="#f0abfc" font-weight="700">MYCÉLIUM</text><text x="252" y="242" text-anchor="middle" font-size="9" fill="rgba(255,255,255,.6)">secondaire</text></g>
+  <g class="node" style="animation-delay:.9s"><text x="48" y="200" text-anchor="middle" font-size="26">🍄</text><text x="48" y="228" text-anchor="middle" font-size="11" fill="#f0abfc" font-weight="700">SPOROPHORE</text></g>
+</svg>`;
+
+const RING_SVG = `
+<svg viewBox="0 0 300 220" class="cycle-svg" style="max-width:380px">
+  <rect x="0" y="0" width="300" height="220" rx="14" fill="rgba(22,101,52,.25)"/>
+  <g class="ring">
+    <circle cx="150" cy="110" r="88" fill="none" stroke="#a3e635" stroke-width="2" stroke-dasharray="4 6"/>
+    <circle cx="150" cy="110" r="60" fill="none" stroke="rgba(163,230,53,.5)" stroke-width="1.5" stroke-dasharray="3 6"/>
+    <circle cx="150" cy="110" r="30" fill="none" stroke="rgba(163,230,53,.3)" stroke-width="1.5" stroke-dasharray="3 6"/>
+  </g>
+  <g class="node" style="animation-delay:.6s">
+    <text x="150" y="26" text-anchor="middle" font-size="22">🍄</text><text x="216" y="48" text-anchor="middle" font-size="20">🍄</text>
+    <text x="80" y="50" text-anchor="middle" font-size="20">🍄</text><text x="238" y="130" text-anchor="middle" font-size="20">🍄</text>
+    <text x="62" y="140" text-anchor="middle" font-size="20">🍄</text><text x="150" y="204" text-anchor="middle" font-size="20">🍄</text>
+    <text x="150" y="112" text-anchor="middle" font-size="9" fill="rgba(255,255,255,.6)">centre initial</text>
+  </g>
+</svg>`;
+
+const SLIDES = [
+{ title:"La partie cachée du champignon 🕳️", html:`
+  <p>Le champignon prospère et colonise son substrat <b>sous forme de mycélium</b> : un ensemble de fins filaments enfouis, la partie <b>végétative</b> du champignon.</p>
+  <div class="chips">
+    <div class="chip" style="animation-delay:.1s"><span class="emo">🌱</span><b>La terre</b><span>le sol et la litière</span></div>
+    <div class="chip" style="animation-delay:.2s"><span class="emo">🍂</span><b>Feuilles mortes</b><span>la matière organique au sol</span></div>
+    <div class="chip" style="animation-delay:.3s"><span class="emo">🪵</span><b>Bois morts</b><span>branches et troncs en décomposition</span></div>
+    <div class="chip" style="animation-delay:.4s"><span class="emo">🌲</span><b>Résines</b><span>les tissus des conifères</span></div>
+    <div class="chip" style="animation-delay:.5s"><span class="emo">🌿</span><b>Plantes vivantes</b><span>quand le champignon est parasite</span></div>
+  </div>
+  <div class="note">📏 Dans une cuillerée à café de terre forestière, on peut trouver jusqu'à <b>1 km de filaments mycéliens</b> !</div>`},
+
+{ title:"De la spore au mycélium primaire 🌰➡️🕸️", html:`
+  <div class="grid2">
+    <div>
+      <p>Tout commence avec la <b>germination d'une spore</b> : elle émet un fin filament, l'<b>hyphe</b>.</p>
+      <p style="margin-top:8px">Les hyphes se ramifient dans toutes les directions et forment le <b>mycélium primaire</b>, issu directement de la spore.</p>
+      <div class="note">💡 Ce mycélium primaire reste stérile : il ne peut pas produire de champignon visible tout seul.</div>
+    </div>
+    <div style="text-align:center"><div class="stamp">🌰 → 🌱 → 🕸️</div></div>
+  </div>`},
+
+{ title:"La rencontre : pas de sexes, des polarités 🤝", html:`
+  <p>Deux mycéliums primaires sont amenés à <b>fusionner lors de leurs rencontres</b> quand leurs <b>polarités sont compatibles</b> (jusqu'à 4 polarités compatibles deux à deux chez certaines espèces).</p>
+  <p style="margin-top:8px">La fusion de deux mycéliums primaires donne naissance à un <b>mycélium secondaire à deux noyaux</b> (dicaryotique), le seul capable de générer un nouveau sporophore.</p>
+  <div class="note">🍄 <b>Sporophore</b> (ou carpophore) : la « partie visible » du champignon n'est donc que l'appareil reproducteur d'un réseau bien plus vaste. La taille du sporophore peut doubler en 24 heures. La plupart des sporophores ne vivent que quelques jours. Les polypores croissent en plusieurs années et certains restent bloqués à un stade peu avancé et ne grandissent jamais.</div>`},
+
+{ title:"Le cycle de vie, en boucle 🔄", html:`
+  <div class="grid2">
+    <div>${CYCLE_SVG}</div>
+    <div>
+      <p><b>Spore</b> qui germe → <b>mycélium primaire</b> → rencontre et fusion → <b>mycélium secondaire</b> → <b>sporophore</b> (le « champignon » visible) → libération de <b>nouvelles spores</b>… et le cycle recommence !</p>
+      <div class="note">♾️ Le mycélium assure aussi la pérennité de l'espèce pendant de nombreuses années, même sans sporophore visible, et se multiplie par fragmentation.</div>
+    </div>
+  </div>`},
+
+{ title:"Stratégies pour se développer et essaimer 🚀", html:`
+  <h3>Étendre son territoire</h3>
+  <ul>
+    <li>🌐 Croissance du réseau de filaments <b>dans le sol</b>, de proche en proche</li>
+    <li>🪵 Colonisation d'un espace confiné comme un <b>morceau de bois mort</b>, puis passage à un autre substrat</li>
+    <li>✂️ Multiplication par <b>fragmentation</b> du mycélium, sans sporophore</li>
+  </ul>
+  <h3>Évacuer les spores</h3>
+  <ul>
+    <li>💨 <b>Chute et dispersion par le vent</b> depuis les lames du chapeau</li>
+    <li>🐌 <b>Transport par les animaux</b> (ingestion, pelage, pattes)</li>
+    <li>💥 <b>Projection mécanique</b> (éclatement de sporanges chez certaines espèces)</li>
+    <li>👃 Certaines espèces attirent les insectes par des <b>odeurs</b>… pour mieux les charger de spores !</li>
+  </ul>
+  <div class="note">🍄‍🟫 Certaines espèces, comme les <b>bolets</b>, peuvent évacuer <b>plusieurs centaines de millions de spores</b> !</div>`},
+
+{ title:"Les ronds de sorcières 🧙‍♀️", html:`
+  <div class="grid2">
+    <div>${RING_SVG}</div>
+    <div>
+      <p>Chez certaines espèces, le mycélium s'organise en <b>croissance centrifuge</b> à partir d'un point initial, formant des <b>ronds de sorcières</b>.</p>
+      <p style="margin-top:8px">Chaque année, ces cercles <b>s'agrandissent</b> et peuvent atteindre de grandes dimensions : <b>quelques centaines de mètres de circonférence</b> !</p>
+      <div class="note">📸 Sur la planche : un rond de sporophores s'étirant dans la litière forestière.</div>
+    </div>
+  </div>`},
+];
+
+let idx = 0, playing = true, timer = null;
+
+function render(){
+  const s = SLIDES[idx];
+  const el = document.getElementById("slide");
+  el.className = "slide fade-in";
+  el.innerHTML = `<h2>${s.title}</h2>` + s.html;
+  document.getElementById("dots").innerHTML = SLIDES.map((_,i)=>
+    `<button class="dot ${i===idx?"on":""}" onclick="goTo(${i})"></button>`).join("");
+  document.getElementById("counter").textContent = `${idx+1} / ${SLIDES.length}`;
+}
+function tick(){ idx = (idx+1)%SLIDES.length; render(); }
+function togglePlay(){
+  playing = !playing;
+  document.getElementById("play-btn").textContent = playing ? "⏸ Pause" : "▶ Lecture";
+  if (timer) { clearInterval(timer); timer = null; }
+  if (playing) timer = setInterval(tick, 8000);
+}
+function step(d){ idx = (idx+d+SLIDES.length)%SLIDES.length; render(); }
+function goTo(i){ idx = i; render(); }
+
+document.addEventListener("keydown", (e) => {
+  if (e.key === "ArrowRight" || e.key === " ") { e.preventDefault(); step(1); }
+  if (e.key === "ArrowLeft") step(-1);
+});
+
+render();
+if (playing) timer = setInterval(tick, 8000);
+</script>
+</body>
+</html>
